@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // 或其他資料庫，例如 postgresql, mysql 等
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  pk        String
+  username  String
+  createdAt DateTime  @default(now())
+  blocks    Block[]
+
+  @@unique([pk, username], name: "pk_user_unique")
+}
+
+model Block {
+  id           Int       @id @default(autoincrement())
+  userId       Int
+  blockUsername String
+  createdAt    DateTime  @default(now())
+
+  user         User      @relation(fields: [userId], references: [id])
+
+  @@unique([userId, blockUsername], name: "user_block_unique")
+}
