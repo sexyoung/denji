@@ -3,6 +3,9 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
 import cors from "cors";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 const prisma = new PrismaClient();
@@ -25,6 +28,12 @@ app.post("/users", async (req, res) => {
 
 // 獲取所有用戶
 app.get("/users", async (req, res) => {
+  const token = req.query.token;
+
+  if (token !== process.env.TOKEN) {
+    return res.status(401).json({ error: 'No token provided' });
+  }
+
   const users = await prisma.user.findMany();
   res.json(users);
 });
@@ -46,6 +55,12 @@ app.post("/blocks", async (req, res) => {
 
 // 獲取所有封鎖
 app.get("/blocks", async (req, res) => {
+  const token = req.query.token;
+
+  if (token !== process.env.TOKEN) {
+    return res.status(401).json({ error: 'No token provided' });
+  }
+
   const blocks = await prisma.block.findMany();
   res.json(blocks);
 });
