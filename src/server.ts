@@ -24,10 +24,10 @@ app.post("/users", async (req, res) => {
 });
 
 // 獲取所有用戶
-// app.get("/users", async (req, res) => {
-//   const users = await prisma.user.findMany();
-//   res.json(users);
-// });
+app.get("/users", async (req, res) => {
+  const users = await prisma.user.findMany();
+  res.json(users);
+});
 
 // 創建封鎖
 app.post("/blocks", async (req, res) => {
@@ -45,10 +45,10 @@ app.post("/blocks", async (req, res) => {
 });
 
 // 獲取所有封鎖
-// app.get("/blocks", async (req, res) => {
-//   const blocks = await prisma.block.findMany();
-//   res.json(blocks);
-// });
+app.get("/blocks", async (req, res) => {
+  const blocks = await prisma.block.findMany();
+  res.json(blocks);
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
